@@ -1,0 +1,10 @@
+.image {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: 0.5s;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}

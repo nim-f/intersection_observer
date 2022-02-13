@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useEffect, useState } from "react";
+import { fetchImages } from "./utils/fetchImages";
+import { Image } from "./component/image";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [page, setPage] = useState(1);
+    const [imagesList, setImagesList] = useState([]);
+    const nextPage = () => {
+        setPage(page + 1);
+    };
+
+    useEffect(() => {
+        fetchImages(page).then((images) =>
+            setImagesList((prev) => [...prev, ...images])
+        );
+    }, [page]);
+
+    return (
+        <div className="App">
+            {imagesList.map((image, index) => (
+                <Image
+                    key={image.id}
+                    image={image}
+                    isLast={index === imagesList.length - 1}
+                    nextPage={nextPage}
+                />
+            ))}
+        </div>
+    );
 }
 
 export default App;
